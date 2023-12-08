@@ -30,18 +30,59 @@ std::vector<glm::vec3> buildCircle(float radius, int vCount)
     return ver;
 }
 
-Fluid::Fluid(int count)
+void Fluid::generatePoints(int pointsCount)
 {
-    vertices = buildCircle(0.6f, count);
+    vertices = buildCircle(0.6f, pointsCount);
+    
+    for (int i = 0; i < vertices.size(); i++)
+    {
+        velocities.push_back(glm::vec3(0, 0, 0));
+    }
+}
+
+Fluid::Fluid(int pointsCount)
+{
+    generatePoints(pointsCount);
 }
 
 void Fluid::updateSimulation()
 {
-    float gravityAcceleration = -9.81f;
-
     for (int i = 0; i < vertices.size(); i++)
     {
-        vertices[i].y += gravityAcceleration * 0.0001f;
         
+
+        velocities[i] += glm::vec3(0, -1, 0) * gravity;
+        vertices[i] += velocities[i] * simulationSpeed;
+
+        //collisions
+        //------
+        if (abs(vertices[i].x) > 1.0f) 
+        {
+            vertices[i].x = -std::signbit(vertices[i].x); //returns false when arg > 0
+            velocities[i].x *= -1.0f * collisionDumping;
+        }
+        if (abs(vertices[i].y) > 1.0f)
+        {
+            vertices[i].y = -std::signbit(vertices[i].y);
+            velocities[i].y *= -1.0f * collisionDumping;
+        }
+        if (abs(vertices[i].z) >= 1.0f)
+        {
+            vertices[i].z = -std::signbit(vertices[i].z);
+            velocities[i].z *= -1.0f * collisionDumping;
+        }
+
+        
+        //debug
+        if (i == 0)
+        {
+
+            /*if (vertices[i].y > -1.0f && vertices[i].y < 1.0f)
+            {
+                vertices[i].y += gravity * 0.0001f;
+            }*/
+
+            std::cout << vertices[i].y << " " << abs(vertices[i].y) << std::endl;
+        }
     }
 }

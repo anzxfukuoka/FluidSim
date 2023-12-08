@@ -23,7 +23,7 @@ int main() {
 	
 	initWindow(600, 800, ".:Fluids:.", color(0.1f, 0.1f, 0.1f, 1.0f));
 
-	water = new Fluid(128);
+	water = new Fluid(16);
 	waterRenderer = new Renderer(&(water->vertices));
 
 	int excode = showWindow(waterRenderer, &fupdate);
