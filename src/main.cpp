@@ -6,7 +6,7 @@
 #include <iostream>
 
 // project inputs
-#include "windowmain.h"
+#include "graphics/windowmain.h"
 
 int main() {
 	

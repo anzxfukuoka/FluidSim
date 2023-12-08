@@ -10,7 +10,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include "misc/color.h"
+#include "../misc/color.h"
+#include "renderer.h"
 
 // process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
 // ---------------------------------------------------------------------------------------------------------

@@ -2,8 +2,7 @@
 
 
 // window background color
-color windowBg(0.1f, 0.1f, 0.1f, 1.0f);
-
+color windowBg(0.1f, 0.1f, 0.6f, 1.0f);
 GLFWwindow* mainWindow;
 
 void initWindow(int width, int height, std::string windowTitle)
@@ -38,6 +37,8 @@ void initWindow(int width, int height, std::string windowTitle)
 
 int showWindow()
 {
+	initRenderBuffers();
+
 	// render loop
 	// -----------
 	while (!glfwWindowShouldClose(mainWindow)) {
@@ -70,7 +71,10 @@ int showWindow()
 };
 
 void update() {};
-void render() {};
+void render() 
+{
+	renderFluid();
+};
 
 void processInput(GLFWwindow* window) {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
