@@ -14,7 +14,7 @@ class Renderer
 {
 private:
 
-	std::vector<glm::vec3> vertices; 
+	std::vector<glm::vec3> *vertices; 
 
 	// object id variables
 	unsigned int vertexBuffer;
@@ -22,8 +22,9 @@ private:
 
 public:
 
-	Renderer(std::vector<glm::vec3> vertices);
+	Renderer(std::vector<glm::vec3> *vertices);
 
+	void updateVertices(std::vector<glm::vec3> *vertices);
 	void initRenderBuffers();
 	void render();
 };

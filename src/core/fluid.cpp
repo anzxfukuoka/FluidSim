@@ -37,8 +37,11 @@ Fluid::Fluid(int count)
 
 void Fluid::updateSimulation()
 {
+    float gravityAcceleration = -9.81f;
+
     for (int i = 0; i < vertices.size(); i++)
     {
-        vertices[i].y += 9.81f;
+        vertices[i].y += gravityAcceleration * 0.0001f;
+        
     }
 }

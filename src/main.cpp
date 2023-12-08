@@ -10,11 +10,13 @@
 #include "core/fluid.h"
 
 Fluid* water;
+Renderer* waterRenderer;
 
 void fupdate() 
 {
 	std::cout << "update!" << std::endl;
 	water->updateSimulation();
+	//waterRenderer->updateVertices(&(water->vertices));
 }
 
 int main() {
@@ -22,10 +24,9 @@ int main() {
 	initWindow(600, 800, ".:Fluids:.");
 
 	water = new Fluid(128);
-	//Renderer* renderer = new Renderer(buildCircle(0.6f, 6));
-	Renderer* renderer = new Renderer(water->vertices);
+	waterRenderer = new Renderer(&(water->vertices));
 
-	int excode = showWindow(renderer, &fupdate);
+	int excode = showWindow(waterRenderer, &fupdate);
 
 	return excode;
 }
