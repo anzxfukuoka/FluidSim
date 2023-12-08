@@ -11,12 +11,20 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void processInput(GLFWwindow *window);
 
 // settings
-const unsigned int SCR_WIDTH = 600;
-const unsigned int SCR_HEIGHT = 800;
 
+// window background color
 color windowBg(0.1f, 0.1f, 0.1f, 1.0f);
 
-int main() {
+// ------------
+
+GLFWwindow* mainWindow;
+
+/// <summary>
+/// configures opengl
+/// </summary>
+/// <returns></returns>
+void initWindow(int width, int height)
+{
 	// glfw: initialize and configure
 	// ------------------------------
 	glfwInit();
@@ -30,37 +38,64 @@ int main() {
 
 	// glfw window creation
 	// --------------------
-	GLFWwindow *window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
-	if (window == NULL) {
+	mainWindow = glfwCreateWindow(width, height, "Fluids", NULL, NULL);
+	if (mainWindow == NULL) {
 		std::cout << "Failed to create GLFW window" << std::endl;
 		glfwTerminate();
-		return -1;
 	}
-	glfwMakeContextCurrent(window);
-	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+	glfwMakeContextCurrent(mainWindow);
+	glfwSetFramebufferSizeCallback(mainWindow, framebuffer_size_callback);
 
 	// glad: load all OpenGL function pointers
 	// ---------------------------------------
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 		std::cout << "Failed to initialize GLAD" << std::endl;
-		return -1;
 	}
+}
 
+/// <summary>
+/// method for simulation instructions
+/// </summary>
+void update()
+{
+}
+
+/// <summary>
+/// method for render instructions
+/// </summary>
+void render()
+{
+
+}
+
+/// <summary>
+/// starts render loop
+/// </summary>
+/// <returns></returns>
+int showWindow() 
+{
 	// render loop
 	// -----------
-	while (!glfwWindowShouldClose(window)) {
+	while (!glfwWindowShouldClose(mainWindow)) {
 		// input
 		// -----
-		processInput(window);
+		processInput(mainWindow);
+
+		// update
+		// ------
+
+		update();
 
 		// render
 		// ------
 		glClearColor(windowBg.r, windowBg.g, windowBg.b, windowBg.a);
 		glClear(GL_COLOR_BUFFER_BIT);
 
+		render();
+
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------
-		glfwSwapBuffers(window);
+		glfwSwapBuffers(mainWindow);
 		glfwPollEvents();
 	}
 
@@ -68,6 +103,17 @@ int main() {
 	// ------------------------------------------------------------------
 	glfwTerminate();
 	return 0;
+}
+
+
+
+int main() {
+	
+	initWindow(600, 800);
+
+	int excode = showWindow();
+
+	return excode;
 }
 
 // process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
