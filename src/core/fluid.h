@@ -1,3 +1,7 @@
+/*
+* fluid.h
+* fluid simulation implementation
+*/
 #pragma once
 
 #include <iostream>

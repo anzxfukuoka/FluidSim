@@ -4,7 +4,18 @@
 
 
 Renderer::Renderer(std::vector<glm::vec3> *vertices) : vertices(vertices)
-{}
+{
+    initShader();
+}
+
+void Renderer::initShader()
+{
+    
+    // attachment of shaders to program object
+    shaderProg.attach("resources/default_vert.glsl", GL_VERTEX_SHADER);
+    shaderProg.attach("resources/default_frag.glsl", GL_FRAGMENT_SHADER);
+    shaderProg.link();
+}
 
 void Renderer::initRenderBuffers()
 {
@@ -29,7 +40,7 @@ void Renderer::render()
     // apply shader
     // ------
 
-    //myProgram.use();
+    shaderProg.use();
 
     // verteces draw
     // ------

@@ -9,6 +9,7 @@ struct color
 	GLfloat b = 1.0f;
 	GLfloat a = 1.0f;
 
+	color() {}
 	color(GLfloat r, GLfloat g, GLfloat b, GLfloat a) 
 		: r(r), g(g), b(b), a(a) 
 	{}

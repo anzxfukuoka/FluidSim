@@ -1,11 +1,14 @@
 #include "windowmain.h"
 
 // window background color
-color windowBg(0.1f, 0.1f, 0.6f, 1.0f);
+color windowBg;//(0.1f, 0.1f, 0.1f, 1.0f);
 GLFWwindow* mainWindow;
 
-void initWindow(int width, int height, std::string windowTitle)
+void initWindow(int width, int height, std::string windowTitle, color windowBackgroundColor)
 {
+
+	windowBg = windowBackgroundColor;
+
 	// glfw: initialize and configure
 	// ------------------------------
 	glfwInit();

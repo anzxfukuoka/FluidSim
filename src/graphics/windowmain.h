@@ -24,7 +24,7 @@ void processInput(GLFWwindow* window);
 /// configures opengl
 /// </summary>
 /// <returns></returns>
-void initWindow(int width, int height, std::string windowTitle);
+void initWindow(int width, int height, std::string windowTitle, color windowBackgroundColor);
 
 /// <summary>
 /// starts render loop

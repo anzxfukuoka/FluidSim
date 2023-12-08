@@ -14,14 +14,14 @@ Renderer* waterRenderer;
 
 void fupdate() 
 {
-	std::cout << "update!" << std::endl;
+	//std::cout << "update!" << std::endl;
 	water->updateSimulation();
 	//waterRenderer->updateVertices(&(water->vertices));
 }
 
 int main() {
 	
-	initWindow(600, 800, ".:Fluids:.");
+	initWindow(600, 800, ".:Fluids:.", color(0.1f, 0.1f, 0.1f, 1.0f));
 
 	water = new Fluid(128);
 	waterRenderer = new Renderer(&(water->vertices));

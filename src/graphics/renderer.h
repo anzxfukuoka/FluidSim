@@ -1,12 +1,18 @@
-﻿#pragma once
+﻿/*
+* renderer.h
+* rendering stuff..
+*/
+#pragma once
 
 #include <iostream>
+#include <vector>
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/vec3.hpp> //
 #include <glm/glm.hpp>  //
-//#include "shaderprog.hpp"
-#include <vector>
+
+#include "shaderprog.h"
 
 using namespace std;
 
@@ -19,12 +25,16 @@ private:
 	// object id variables
 	unsigned int vertexBuffer;
 	unsigned int vertexArray;
+	
+	// shader
+	ShaderProg shaderProg;
 
 public:
 
 	Renderer(std::vector<glm::vec3> *vertices);
 
-	void updateVertices(std::vector<glm::vec3> *vertices);
+	void initShader();
+	//void updateVertices(std::vector<glm::vec3> *vertices);
 	void initRenderBuffers();
 	void render();
 };
