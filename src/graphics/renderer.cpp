@@ -1,41 +1,15 @@
 #include "renderer.h"
 
-std::vector<glm::vec3> vertices; //
+//std::vector<glm::vec3> vertices; //
 
-// object id variables
-unsigned int vertexBuffer;
-unsigned int vertexArray;
 
-void buildCircle(float radius, int vCount)
+Renderer::Renderer(std::vector<glm::vec3> vertices) : vertices(vertices)
 {
-    float angle = 360.0f / vCount;
 
-    int triangleCount = vCount - 2;
-
-    std::vector<glm::vec3> temp;
-    // positions
-    for (int i = 0; i < vCount; i++)
-    {
-        float currentAngle = angle * i;
-        float x = radius * cos(glm::radians(currentAngle));
-        float y = radius * sin(glm::radians(currentAngle));
-        float z = 0.0f;
-
-        temp.push_back(glm::vec3(x, y, z));
-    }
-
-    for (int i = 0; i < triangleCount; i++)
-    {
-        vertices.push_back(temp[0]);
-        vertices.push_back(temp[i + 1]);
-        vertices.push_back(temp[i + 2]);
-    }
 }
 
-void initRenderBuffers()
+void Renderer::initRenderBuffers()
 {
-    buildCircle(1, 32);
-
     // buffer
     glGenVertexArrays(1, &vertexArray);
     glGenBuffers(1, &vertexBuffer);
@@ -51,7 +25,7 @@ void initRenderBuffers()
     glEnableVertexAttribArray(0);
 }
 
-void renderFluid()
+void Renderer::render()
 {
     //myProgram.use();
 

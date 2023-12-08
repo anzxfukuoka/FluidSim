@@ -1,5 +1,5 @@
 /*
-* main_window.h
+* windowmain.h
 * manages window creation and open gl features
 */
 #pragma once
@@ -27,17 +27,7 @@ void processInput(GLFWwindow* window);
 void initWindow(int width, int height, std::string windowTitle);
 
 /// <summary>
-/// method for simulation instructions
-/// </summary>
-void update();
-
-/// <summary>
-/// method for render instructions
-/// </summary>
-void render();
-
-/// <summary>
 /// starts render loop
 /// </summary>
 /// <returns></returns>
-int showWindow();
+int showWindow(Renderer * renderer, void (*newupdate)());

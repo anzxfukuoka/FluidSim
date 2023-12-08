@@ -7,10 +7,23 @@
 #include <glm/glm.hpp>  //
 //#include "shaderprog.hpp"
 #include <vector>
+
 using namespace std;
 
-void buildCircle(float radius, int vCount);
+class Renderer
+{
+private:
 
-void initRenderBuffers();
+	std::vector<glm::vec3> vertices; 
 
-void renderFluid();
+	// object id variables
+	unsigned int vertexBuffer;
+	unsigned int vertexArray;
+
+public:
+
+	Renderer(std::vector<glm::vec3> vertices);
+
+	void initRenderBuffers();
+	void render();
+};

@@ -1,6 +1,5 @@
 #include "windowmain.h"
 
-
 // window background color
 color windowBg(0.1f, 0.1f, 0.6f, 1.0f);
 GLFWwindow* mainWindow;
@@ -35,9 +34,9 @@ void initWindow(int width, int height, std::string windowTitle)
 	}
 };
 
-int showWindow()
+int showWindow(Renderer *renderer, void (*update)())
 {
-	initRenderBuffers();
+	renderer->initRenderBuffers();
 
 	// render loop
 	// -----------
@@ -49,6 +48,7 @@ int showWindow()
 		// update
 		// ------
 
+		//update();
 		update();
 
 		// render
@@ -56,7 +56,7 @@ int showWindow()
 		glClearColor(windowBg.r, windowBg.g, windowBg.b, windowBg.a);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		render();
+		renderer->render();
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------
@@ -70,11 +70,6 @@ int showWindow()
 	return 0;
 };
 
-void update() {};
-void render() 
-{
-	renderFluid();
-};
 
 void processInput(GLFWwindow* window) {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
