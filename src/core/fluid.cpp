@@ -30,6 +30,36 @@ std::vector<glm::vec3> buildCircle(float radius, int vCount)
     return ver;
 }
 
+float kernerlSmoother(float radius, float distance)
+{
+    float volume = (M_PI * pow(radius, 4)) / 2;
+    float val = std::max(0.0f, radius - distance) ;
+    return pow(val, 3) / volume;
+}
+
+float Fluid::calcDensity(int vertIndex)
+{
+    float density = 0;
+    float mass = 1;
+
+    for (int i = 0; i < vertices.size(); i++)
+    {
+        if (vertIndex == i) 
+        {
+            continue;
+        }
+
+        auto vert = vertices[vertIndex];
+        auto otherVert = vertices[i];
+
+        float distance = glm::length(vert - otherVert);
+        float influance = kernerlSmoother(smothingRadius, distance);
+        density += mass * influance;
+    }
+
+    return density;
+}
+
 void Fluid::generatePoints(int pointsCount)
 {
     vertices = buildCircle(0.6f, pointsCount);
@@ -82,7 +112,7 @@ void Fluid::updateSimulation()
                 vertices[i].y += gravity * 0.0001f;
             }*/
 
-            std::cout << vertices[i].y << " " << abs(vertices[i].y) << std::endl;
+            std::cout << vertices[i].y << " " << calcDensity(0) << std::endl;
         }
     }
 }

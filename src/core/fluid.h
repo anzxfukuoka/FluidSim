@@ -4,13 +4,24 @@
 */
 #pragma once
 
+#define _USE_MATH_DEFINES
+
+#include <cmath>
 #include <iostream>
+#include <vector>
+#include <algorithm>    // std::max
+
 #include <glm/vec3.hpp> //
 #include <glm/glm.hpp>  //
 //#include "shaderprog.hpp"
-#include <vector>
 
+//---
 std::vector<glm::vec3> buildCircle(float radius, int vCount);
+
+//---
+float kernerlSmoother(float radius, float distance);
+
+
 
 class Fluid 
 {
@@ -24,6 +35,10 @@ private:
 	float collisionDumping = 0.88f;
 
 	float simulationSpeed = 0.000001f;
+
+	float smothingRadius = 1.0f;
+
+	float calcDensity(int vertIndex);
 
 public:
 
