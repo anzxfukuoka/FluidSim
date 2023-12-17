@@ -20,14 +20,14 @@ std::vector<glm::vec3> buildCircle(float radius, int vCount)
         temp.push_back(glm::vec3(x, y, z));
     }
 
-    for (int i = 0; i < triangleCount; i++)
+    /*for (int i = 0; i < triangleCount; i++)
     {
         ver.push_back(temp[0]);
         ver.push_back(temp[i + 1]);
         ver.push_back(temp[i + 2]);
-    }
+    }*/
 
-    return ver;
+    return temp;
 }
 
 float kernerlSmoother(float radius, float distance)

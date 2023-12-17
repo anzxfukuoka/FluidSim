@@ -26,11 +26,14 @@ void ShaderProg::use()
     
 }
 
-void ShaderProg::setUniforms()
+void ShaderProg::setUniforms(std::vector<float> densities)
 {
     GLint myLoc = glGetUniformLocation(m_pId, "myVar");
     // glProgramUniform... methods are only available in OpenGL 4.x, not 3.1.
     glUniform4f(myLoc, 0.1f, 0.1f, 0.1f, 0.1f);
+
+    GLint densitiesLoc = glGetUniformLocation(m_pId, "densities");
+    glUniform1fv(densitiesLoc, densities.size(), &densities[0]);
 }
 
 

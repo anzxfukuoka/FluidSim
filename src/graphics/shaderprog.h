@@ -16,7 +16,7 @@ public:
 
     void use();
 
-    void setUniforms();
+    void setUniforms(std::vector<float> densities);
 
 private:
     unsigned int m_pId;

@@ -43,7 +43,7 @@ void FluidRenderer::render()
     // ------
 
     shaderProg.use();
-    shaderProg.setUniforms();
+    shaderProg.setUniforms(fluid->densities);
 
     // verteces draw
     // ------
