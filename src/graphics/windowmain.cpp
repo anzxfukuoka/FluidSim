@@ -15,6 +15,9 @@ void initWindow(int width, int height, std::string windowTitle, color windowBack
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	//glfwWindowHint(GLFW_DECORATED, GLFW_TRUE); // GLFW_FALSE // enable system window frame
+	glfwWindowHint(GLFW_TRANSPARENT_FRAMEBUFFER, GLFW_TRUE); // window transparency
+	//glfwWindowHint(GLFW_MOUSE_PASSTHROUGH, GLFW_FALSE); //  ignore mouse click and let it pass to the windows behind
 
 #ifdef __APPLE__
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
@@ -56,8 +59,14 @@ int showWindow(Renderer *renderer, void (*update)())
 
 		// render
 		// ------
+
+		//clear background
 		glClearColor(windowBg.r, windowBg.g, windowBg.b, windowBg.a);
 		glClear(GL_COLOR_BUFFER_BIT);
+
+		//ebable alpha
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		renderer->render();
 
