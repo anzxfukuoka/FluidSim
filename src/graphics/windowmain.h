@@ -30,4 +30,4 @@ void initWindow(int width, int height, std::string windowTitle, color windowBack
 /// starts render loop
 /// </summary>
 /// <returns></returns>
-int showWindow(Renderer * renderer, void (*newupdate)());
+int showWindow(FluidRenderer * renderer, void (*newupdate)());

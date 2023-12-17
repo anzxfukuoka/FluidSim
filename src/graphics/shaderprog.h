@@ -1,6 +1,8 @@
 #pragma once
 
 #include <string>
+#include <vector>
+
 class ShaderProg
 {
 public:
@@ -13,6 +15,8 @@ public:
     void link();
 
     void use();
+
+    void setUniforms();
 
 private:
     unsigned int m_pId;

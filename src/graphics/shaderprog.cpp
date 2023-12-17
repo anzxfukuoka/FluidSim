@@ -23,10 +23,17 @@ void ShaderProg::use()
 {
     glUseProgram(m_pId);
 
+    
+}
+
+void ShaderProg::setUniforms()
+{
     GLint myLoc = glGetUniformLocation(m_pId, "myVar");
     // glProgramUniform... methods are only available in OpenGL 4.x, not 3.1.
     glUniform4f(myLoc, 0.1f, 0.1f, 0.1f, 0.1f);
 }
+
+
 
 void ShaderProg::attach(const char* fileName, unsigned int shaderType)
 {

@@ -40,7 +40,7 @@ private:
 	/// range [0.0f, 1.0f] 
 	/// (due to openGL coord space)
 	/// </summary>
-	float smothingRadius = 0.1f;
+	float smothingRadius = 0.14f;
 
 	float calcDensity(int vertIndex);
 
@@ -50,8 +50,8 @@ public:
 	std::vector<glm::vec3> vertices;
 	// points speed
 	std::vector<glm::vec3> velocities;
-
 	// 
+	std::vector<float> densities;
 
 	void generatePoints(int pointsCount);
 

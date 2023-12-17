@@ -10,7 +10,7 @@
 #include "core/fluid.h"
 
 Fluid* water;
-Renderer* waterRenderer;
+FluidRenderer* waterRenderer;
 
 const float WIDTH = 1000;
 const float HEIGHT = 800;
@@ -29,7 +29,7 @@ int main() {
 	printf("%s\n", glGetString(GL_VERSION));
 
 	water = new Fluid(16);
-	waterRenderer = new Renderer(&(water->vertices), water->getPointSize(glm::vec2(WIDTH, HEIGHT)));
+	waterRenderer = new FluidRenderer(water, glm::vec2(WIDTH, HEIGHT));
 
 	int excode = showWindow(waterRenderer, &fupdate);
 

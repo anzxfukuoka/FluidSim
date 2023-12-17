@@ -3,13 +3,13 @@
 //std::vector<glm::vec3> vertices; //
 
 
-Renderer::Renderer(std::vector<glm::vec3>* vertices, int pointSize) 
-    : vertices(vertices), pointSize(pointSize)
+FluidRenderer::FluidRenderer(Fluid* fluid, glm::vec2 resolution)
+    : fluid(fluid), resolution(resolution)
 {
     initShader();
 }
 
-void Renderer::initShader()
+void FluidRenderer::initShader()
 {
     
     // attachment of shaders to program object
@@ -18,7 +18,7 @@ void Renderer::initShader()
     shaderProg.link();
 }
 
-void Renderer::initRenderBuffers()
+void FluidRenderer::initRenderBuffers()
 {
     // buffer
     glGenVertexArrays(1, &vertexArray);
@@ -28,11 +28,12 @@ void Renderer::initRenderBuffers()
     glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 }
 
-void Renderer::render()
+void FluidRenderer::render()
 {
     // send points to gpu
     // ------
-    glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * vertices->size(), &(*vertices)[0], GL_STATIC_DRAW); // asd
+    //glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * fluid->vertices.size(), &(*vertices)[0], GL_STATIC_DRAW); // asd
+    glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * fluid->vertices.size(), &((*fluid).vertices)[0], GL_STATIC_DRAW); // asd
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 
@@ -42,6 +43,7 @@ void Renderer::render()
     // ------
 
     shaderProg.use();
+    shaderProg.setUniforms();
 
     // verteces draw
     // ------
@@ -49,7 +51,7 @@ void Renderer::render()
     glBindVertexArray(vertexArray);
 
     //glPointSize(100);
-    glPointSize(pointSize);
+    glPointSize(fluid->getPointSize(resolution));
 
-    glDrawArrays(GL_POINTS, 0, vertices->size());
+    glDrawArrays(GL_POINTS, 0, fluid->vertices.size());
 }

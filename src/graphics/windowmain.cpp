@@ -39,7 +39,7 @@ void initWindow(int width, int height, std::string windowTitle, color windowBack
 	}
 };
 
-int showWindow(Renderer *renderer, void (*update)())
+int showWindow(FluidRenderer *renderer, void (*update)())
 {
 	renderer->initRenderBuffers();
 

@@ -14,13 +14,22 @@
 
 #include "shaderprog.h"
 
+#include "../core/fluid.h"
+
 using namespace std;
 
-class Renderer
+/// <summary>
+/// fluid renderer
+/// </summary>
+class FluidRenderer
 {
 private:
 
-	std::vector<glm::vec3> *vertices; 
+	// screen resolution
+	glm::vec2 resolution;
+
+	// fluid to render
+	Fluid* fluid;
 
 	// object id variables
 	unsigned int vertexBuffer;
@@ -29,11 +38,9 @@ private:
 	// shader
 	ShaderProg shaderProg;
 
-	int pointSize;
-
 public:
 
-	Renderer(std::vector<glm::vec3> *vertices, int pointSize);
+	FluidRenderer(Fluid* fluid, glm::vec2 resolution);
 
 	void initShader();
 	//void updateVertices(std::vector<glm::vec3> *vertices);
