@@ -66,7 +66,7 @@ int showWindow(Renderer *renderer, void (*update)())
 
 		//ebable alpha
 		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glBlendFunc(GL_SRC_ALPHA, GL_DST_ALPHA);
 
 		renderer->render();
 
