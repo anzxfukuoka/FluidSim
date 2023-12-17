@@ -6,7 +6,6 @@ GLFWwindow* mainWindow;
 
 void initWindow(int width, int height, std::string windowTitle, color windowBackgroundColor)
 {
-
 	windowBg = windowBackgroundColor;
 
 	// glfw: initialize and configure

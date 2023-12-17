@@ -116,3 +116,9 @@ void Fluid::updateSimulation()
         }
     }
 }
+
+int Fluid::getPointSize(glm::vec2 screenResolution)
+{
+    float pointSize = std::max(screenResolution.x, screenResolution.y) * smothingRadius;
+    return pointSize;
+}

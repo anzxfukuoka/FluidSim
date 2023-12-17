@@ -3,7 +3,8 @@
 //std::vector<glm::vec3> vertices; //
 
 
-Renderer::Renderer(std::vector<glm::vec3> *vertices) : vertices(vertices)
+Renderer::Renderer(std::vector<glm::vec3>* vertices, int pointSize) 
+    : vertices(vertices), pointSize(pointSize)
 {
     initShader();
 }
@@ -47,7 +48,8 @@ void Renderer::render()
 
     glBindVertexArray(vertexArray);
 
-    glPointSize(20);
+    //glPointSize(100);
+    glPointSize(pointSize);
 
     glDrawArrays(GL_POINTS, 0, vertices->size());
 }

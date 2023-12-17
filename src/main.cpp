@@ -12,6 +12,9 @@
 Fluid* water;
 Renderer* waterRenderer;
 
+const float WIDTH = 1000;
+const float HEIGHT = 800;
+
 void fupdate() 
 {
 	//std::cout << "update!" << std::endl;
@@ -21,10 +24,12 @@ void fupdate()
 
 int main() {
 	
-	initWindow(600, 800, ".:Fluids:.", color(0.1f, 0.1f, 0.1f, 1.0f));
+	initWindow(WIDTH, HEIGHT, ".:Fluids:.", color(0.1f, 0.1f, 0.1f, 1.0f));
+
+	printf("%s\n", glGetString(GL_VERSION));
 
 	water = new Fluid(16);
-	waterRenderer = new Renderer(&(water->vertices));
+	waterRenderer = new Renderer(&(water->vertices), water->getPointSize(glm::vec2(WIDTH, HEIGHT)));
 
 	int excode = showWindow(waterRenderer, &fupdate);
 

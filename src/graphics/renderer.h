@@ -29,9 +29,11 @@ private:
 	// shader
 	ShaderProg shaderProg;
 
+	int pointSize;
+
 public:
 
-	Renderer(std::vector<glm::vec3> *vertices);
+	Renderer(std::vector<glm::vec3> *vertices, int pointSize);
 
 	void initShader();
 	//void updateVertices(std::vector<glm::vec3> *vertices);

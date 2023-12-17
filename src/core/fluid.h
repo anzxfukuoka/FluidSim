@@ -36,7 +36,11 @@ private:
 
 	float simulationSpeed = 0.000001f;
 
-	float smothingRadius = 1.0f;
+	/// <summary>
+	/// range [0.0f, 1.0f] 
+	/// (due to openGL coord space)
+	/// </summary>
+	float smothingRadius = 0.1f;
 
 	float calcDensity(int vertIndex);
 
@@ -47,11 +51,18 @@ public:
 	// points speed
 	std::vector<glm::vec3> velocities;
 
+	// 
+
 	void generatePoints(int pointsCount);
 
 	Fluid(int count);
 
 	void updateSimulation();
 
+	/// <summary>
+	/// returns point size according to smothingRadius and screenResolution
+	/// </summary>
+	/// <returns></returns>
+	int getPointSize(glm::vec2 screenResolution);
 };
 
