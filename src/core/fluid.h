@@ -32,7 +32,7 @@ private:
 	float gravity = 9.81f;
 
 	// wall colisions dumping
-	float collisionDumping = 0.88f;
+	float collisionDumping = 1.0f;//0.88f;
 
 	float simulationSpeed = 0.000001f;
 
