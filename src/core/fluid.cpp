@@ -1,5 +1,13 @@
 #include "fluid.h"
 
+glm::vec3 randomVec3()
+{
+    float x = (float(rand()) / float((RAND_MAX)) - 0.5f) * 2;
+    float y = (float(rand()) / float((RAND_MAX)) - 0.5f) * 2;
+    float z = (float(rand()) / float((RAND_MAX)) - 0.5f) * 2;
+    return glm::vec3(x, y, z);
+}
+
 std::vector<glm::vec3> buildCircle(float radius, int vCount)
 {
     std::vector<glm::vec3> ver;
@@ -30,17 +38,60 @@ std::vector<glm::vec3> buildCircle(float radius, int vCount)
     return temp;
 }
 
-float kernerlSmoother(float radius, float distance)
+std::vector<glm::vec3> buildRandomField(int vCount)
 {
-    float volume = (M_PI * pow(radius, 8)) / 4;
-    float val = std::max(0.0f, radius * radius - distance * distance);
-    return pow(val, 3) / volume;
+    std::vector<glm::vec3> randomField;
+
+    for (int i = 0; i < vCount; i++)
+    {
+        randomField.push_back(randomVec3());
+    }
+
+    return randomField;
 }
+
+std::vector<glm::vec3> buildSquareGrid(int vCount, float spacing)
+{
+    std::vector<glm::vec3> grid;
+    glm::vec3 center = glm::vec3(sqrt(vCount) * spacing / 2, sqrt(vCount) * spacing / 2, 1.0f);
+
+    for (int i = 0; i <= sqrt(vCount); i++)
+    {
+        for (int j = 0; j <= sqrt(vCount); j++)
+        {
+            
+            grid.push_back(glm::vec3(i* spacing, j* spacing, 1.0f) - center);
+        }
+    }
+
+    return grid;
+}
+
+float smoothingKernerl(float radius, float distance)
+{
+    if (distance >= radius) 
+        return 0;
+
+    float volume = (M_PI * pow(radius, 4.0f)) / 6.0f;
+    float val = (radius - distance) * (radius - distance) / volume;
+    return val;
+}
+
+float smoothingKernerlDerivative(float radius, float distance)
+{
+    if (distance >= radius)
+        return 0;
+
+    float scale = 12.0f / (pow(radius, 4.0f) * M_PI);
+    return (distance - radius) * scale;
+}
+
+
 
 float Fluid::calcDensity(int vertIndex)
 {
-    float density = 0;
-    float mass = 1;
+    float density = 0.0f;
+    float threshold = 0.0001f;
 
     for (int i = 0; i < vertices.size(); i++)
     {
@@ -53,22 +104,64 @@ float Fluid::calcDensity(int vertIndex)
         auto otherVert = vertices[i];
 
         float distance = glm::length(vert - otherVert);
-        float influance = kernerlSmoother(smothingRadius, distance);
+        float influance = smoothingKernerl(smothingRadius, distance);
         density += mass * influance;
     }
 
-    return density;
+    return density > threshold ? density : 0.0f;
+}
+
+glm::vec3 Fluid::calcGradientPressure(int vertIndex)
+{
+    glm::vec3 grad = glm::vec3(0.0f, 0.0f, 0.0f);
+
+    for (int i = 0; i < vertices.size(); i++)
+    {
+        if (vertIndex == i) 
+        {
+            continue;
+        }
+
+        glm::vec3 vec = vertices[i] - vertices[vertIndex];
+        float dist = glm::length(vec);
+        glm::vec3 dir = glm::normalize(vec);
+
+        if (dir.length() == 0)
+        {
+            dir = randomVec3();
+        }
+        
+        float slope = smoothingKernerlDerivative(dist, smothingRadius);
+        float density = densities[i];
+
+        if (density != 0) 
+        {
+            grad += -getPressureFromDensity(density) * dir * slope * mass / density;
+        }
+    }
+
+    return grad;
+}
+
+float Fluid::getPressureFromDensity(float density)
+{
+    float densityError = targetDensity - density;
+    float pressure = densityError * pressureMultipier;
+    return pressure;
 }
 
 void Fluid::generatePoints(int pointsCount)
 {
-    vertices = buildCircle(0.6f, pointsCount);
-    
+    //vertices = buildCircle(0.6f, pointsCount);
+    //vertices = buildRandomField(pointsCount);
+    vertices =  buildSquareGrid(pointsCount, 0.2f);
+
     // 
     for (int i = 0; i < vertices.size(); i++)
     {
         velocities.push_back(glm::vec3(0, 0, 0));
         densities.push_back(0);
+        normedDensities.push_back(0);
     }
 }
 
@@ -88,9 +181,24 @@ void Fluid::updateSimulation()
 
         densities[i] = calcDensity(i);
         maxDens = std::max(densities[i], maxDens);
+    }
 
-        //collisions
+    //pressure forces
         //------
+    for (int i = 0; i < vertices.size(); i++)
+    {
+        if (densities[i] == 0)
+            continue;
+
+        glm::vec3 pressureForce = calcGradientPressure(i);
+        glm::vec3 pressureAccel = pressureForce / densities[i];
+        velocities[i] += pressureAccel;
+    }
+
+    //collisions
+    //------
+    for (int i = 0; i < vertices.size(); i++)
+    {
         if (abs(vertices[i].x) > 1.0f) 
         {
             vertices[i].x = -std::signbit(vertices[i].x); //returns false when arg > 0
@@ -117,15 +225,15 @@ void Fluid::updateSimulation()
                 vertices[i].y += gravity * 0.0001f;
             }*/
 
-            std::cout << vertices[i].y << " " << calcDensity(0) << std::endl;
+            std::cout << velocities[i].y << " " << calcDensity(0) << std::endl;
         }
     }
 
-    //norm
-
+    ////norm
+    ////(for shaders)
     for (int i = 0; i < densities.size(); i++)
     {
-        densities[i] /= maxDens;
+        normedDensities[i] = densities[i] / maxDens;
     }
 }
 

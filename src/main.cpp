@@ -28,7 +28,7 @@ int main() {
 
 	printf("%s\n", glGetString(GL_VERSION));
 
-	water = new Fluid(64);
+	water = new Fluid(16);
 	waterRenderer = new FluidRenderer(water, glm::vec2(WIDTH, HEIGHT));
 
 	int excode = showWindow(waterRenderer, &fupdate);

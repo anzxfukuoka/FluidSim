@@ -48,7 +48,7 @@ void FluidRenderer::render()
     // densities
 
     glBindBuffer(GL_ARRAY_BUFFER, densityBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * fluid->densities.size(), fluid->densities.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * fluid->normedDensities.size(), fluid->normedDensities.data(), GL_STATIC_DRAW);
     glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE, sizeof(float), (void*)0);
     glEnableVertexAttribArray(1);
 
