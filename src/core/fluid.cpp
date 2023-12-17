@@ -79,12 +79,15 @@ Fluid::Fluid(int pointsCount)
 
 void Fluid::updateSimulation()
 {
+    float maxDens = 0;
+
     for (int i = 0; i < vertices.size(); i++)
     {
         velocities[i] += glm::vec3(0, -1, 0) * gravity;
         vertices[i] += velocities[i] * simulationSpeed;
 
         densities[i] = calcDensity(i);
+        maxDens = std::max(densities[i], maxDens);
 
         //collisions
         //------
@@ -116,6 +119,13 @@ void Fluid::updateSimulation()
 
             std::cout << vertices[i].y << " " << calcDensity(0) << std::endl;
         }
+    }
+
+    //norm
+
+    for (int i = 0; i < densities.size(); i++)
+    {
+        densities[i] /= maxDens;
     }
 }
 

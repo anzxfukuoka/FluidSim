@@ -22,8 +22,6 @@ void ShaderProg::link()
 void ShaderProg::use()
 {
     glUseProgram(m_pId);
-
-    
 }
 
 void ShaderProg::setUniforms(std::vector<float> densities)

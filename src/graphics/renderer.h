@@ -31,9 +31,11 @@ private:
 	// fluid to render
 	Fluid* fluid;
 
-	// object id variables
+	// object id buffers variables
 	unsigned int vertexBuffer;
 	unsigned int vertexArray;
+
+	unsigned int densityBuffer;
 	
 	// shader
 	ShaderProg shaderProg;
