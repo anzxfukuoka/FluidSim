@@ -39,13 +39,24 @@ void initWindow(int width, int height, std::string windowTitle, color windowBack
 	}
 };
 
-int showWindow(FluidRenderer *renderer, void (*update)())
+int showWindow(FluidRenderer *renderer, void (*update)(), int updateSpeed)
 {
 	renderer->initRenderBuffers();
+
+	int ticks = 0;
+	int time = 0;
 
 	// render loop
 	// -----------
 	while (!glfwWindowShouldClose(mainWindow)) {
+
+		time++;
+
+		if (time % updateSpeed != 0)
+		{
+			continue;
+		}
+
 		// input
 		// -----
 		processInput(mainWindow);
@@ -73,6 +84,9 @@ int showWindow(FluidRenderer *renderer, void (*update)())
 		// -------------------------------------------------------------------------------
 		glfwSwapBuffers(mainWindow);
 		glfwPollEvents();
+
+		ticks++;
+		//std::cout << "ticks: " << ticks << std::endl;
 	}
 
 	// glfw: terminate, clearing all previously allocated GLFW resources.

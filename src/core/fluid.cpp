@@ -126,12 +126,12 @@ glm::vec3 Fluid::calcGradientPressure(int vertIndex)
         float dist = glm::length(vec);
         glm::vec3 dir = glm::normalize(vec);
 
-        if (dir.length() == 0)
+        if (dist == 0)
         {
             dir = randomVec3();
         }
         
-        float slope = smoothingKernerlDerivative(dist, smothingRadius);
+        float slope = smoothingKernerlDerivative(smothingRadius, dist);
         float density = densities[i];
 
         if (density != 0) 
@@ -176,7 +176,10 @@ void Fluid::updateSimulation()
 
     for (int i = 0; i < vertices.size(); i++)
     {
+
         velocities[i] += glm::vec3(0, -1, 0) * gravity;
+        velocities[i] *= ambienceDumping;
+
         vertices[i] += velocities[i] * simulationSpeed;
 
         densities[i] = calcDensity(i);
@@ -199,25 +202,26 @@ void Fluid::updateSimulation()
     //------
     for (int i = 0; i < vertices.size(); i++)
     {
-        if (abs(vertices[i].x) > 1.0f) 
+        if (abs(vertices[i].x) >= 1.0f) 
         {
-            vertices[i].x = -std::signbit(vertices[i].x); //returns false when arg > 0
-            velocities[i].x *= -1.0f * collisionDumping;
+            //signbit returns false when arg > 0
+            vertices[i].x = std::signbit(vertices[i].x) ? -1.0f : 1.0f; 
+            velocities[i].x = -velocities[i].x * collisionDumping;
         }
-        if (abs(vertices[i].y) > 1.0f)
+        if (abs(vertices[i].y) >= 1.0f)
         {
-            vertices[i].y = -std::signbit(vertices[i].y);
-            velocities[i].y *= -1.0f * collisionDumping;
+            vertices[i].y = std::signbit(vertices[i].y) ? -1.0f : 1.0f;
+            velocities[i].y = -velocities[i].y * collisionDumping;
         }
         if (abs(vertices[i].z) >= 1.0f)
         {
-            vertices[i].z = -std::signbit(vertices[i].z);
-            velocities[i].z *= -1.0f * collisionDumping;
+            vertices[i].z = std::signbit(vertices[i].z) ? -1.0f : 1.0f;
+            velocities[i].z *= -velocities[i].z * collisionDumping;
         }
 
         
         //debug
-        if (i == 0)
+        if (i == vertices.size() - 1)
         {
 
             /*if (vertices[i].y > -1.0f && vertices[i].y < 1.0f)
@@ -225,7 +229,7 @@ void Fluid::updateSimulation()
                 vertices[i].y += gravity * 0.0001f;
             }*/
 
-            std::cout << velocities[i].y << " " << calcDensity(0) << std::endl;
+            std::cout << velocities[i].x << " " << densities[i] << std::endl;
         }
     }
 
@@ -236,6 +240,7 @@ void Fluid::updateSimulation()
         normedDensities[i] = densities[i] / maxDens;
     }
 }
+
 
 int Fluid::getPointSize(glm::vec2 screenResolution)
 {

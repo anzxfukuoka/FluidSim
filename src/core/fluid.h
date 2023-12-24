@@ -34,16 +34,17 @@ private:
 	// simulation vars
 	// ----------------
 
-	float targetDensity = 1.0f;
-	float pressureMultipier = 0.4f;
+	float targetDensity = 10.0f;
+	float pressureMultipier = 6.0f;
 
-	float gravity = 0.0f;//9.81f; //
+	float gravity = 9.81f;
 	float mass = 1.0f;
 
 	// wall colisions dumping
 	float collisionDumping = 0.88f;
+	float ambienceDumping = 0.88f;
 
-	float simulationSpeed = 0.0000002f;
+	float simulationSpeed = 0.00002f;
 
 	/// <summary>
 	/// range [0.0f, 1.0f] 
