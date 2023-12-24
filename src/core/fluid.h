@@ -34,11 +34,12 @@ private:
 	// simulation vars
 	// ----------------
 
-	float targetDensity = 10.0f;
-	float pressureMultipier = 6.0f;
+	float targetDensity = 10.01f;
+	float pressureMultipier = 0.1f;
 
+	bool enableGravity = 1;
 	float gravity = 9.81f;
-	float mass = 1.0f;
+	float mass = 1.01f;
 
 	// wall colisions dumping
 	float collisionDumping = 0.88f;
@@ -50,7 +51,7 @@ private:
 	/// range [0.0f, 1.0f] 
 	/// (due to openGL coord space)
 	/// </summary>
-	float smothingRadius = 0.28f;
+	float smothingRadius = 0.1f;
 
 	float calcDensity(int vertIndex);
 	glm::vec3 calcGradientPressure(int vertIndex);
