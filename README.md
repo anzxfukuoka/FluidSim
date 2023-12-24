@@ -1,1 +1,3 @@
-# OpenGL project template
+# FluidSim
+
+C++ fluid simulation realization
