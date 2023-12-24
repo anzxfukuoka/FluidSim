@@ -4,6 +4,10 @@
 color windowBg;//(0.1f, 0.1f, 0.1f, 1.0f);
 GLFWwindow* mainWindow;
 
+// mouse relative screen pos
+// updates every frame
+double mousePosX, mousePosY;
+
 void initWindow(int width, int height, std::string windowTitle, color windowBackgroundColor)
 {
 	windowBg = windowBackgroundColor;
@@ -95,10 +99,30 @@ int showWindow(FluidRenderer *renderer, void (*update)(), int updateSpeed)
 	return 0;
 };
 
+glm::vec2 getMousePosition() 
+{
+	return glm::vec2(mousePosX, mousePosY);
+}
 
 void processInput(GLFWwindow* window) {
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+
+	// exit 
+	// ------
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) 
+	{
 		glfwSetWindowShouldClose(window, true);
+	}
+
+	// mouse
+	// -----
+	int winWidth, winHeight;
+	double xpos, ypos;
+
+	glfwGetWindowSize(window, &winWidth, &winHeight);
+	glfwGetCursorPos(window, &xpos, &ypos);
+
+	mousePosX = (xpos / winWidth - 0.5f) * 2;
+	mousePosY = (ypos / winHeight - 0.5f) * 2;
 };
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {

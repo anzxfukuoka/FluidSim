@@ -178,7 +178,7 @@ float Fluid::getPressureFromDensity(float density)
 
 
 
-void Fluid::updateSimulation()
+void Fluid::updateSimulation(float cursorX, float cursorY)
 {
     float maxDens = 0;
 
@@ -213,6 +213,18 @@ void Fluid::updateSimulation()
             glm::vec3 pressureAccel = pressureForce;// / densities[i];
             velocities[i] += -pressureAccel;
         }
+
+        // cursor force
+        glm::vec3 dir = vertices[i] - glm::vec3(cursorX, -cursorY, 0);
+        float dist = glm::length(dir);
+
+        if (dist <= cursorRadius)
+        {
+            velocities[i] += cursorForce * glm::normalize(dir);
+        }
+
+
+        
     }
 
     //collisions
@@ -246,8 +258,9 @@ void Fluid::updateSimulation()
                 vertices[i].y += gravity * 0.0001f;
             }*/
 
-            std::cout << velocities[i].x << " " << densities[i] << std::endl;
-            std::cout << "max p " << maxDens << std::endl;
+            //std::cout << velocities[i].x << " " << densities[i] << std::endl;
+            //std::cout << "max p " << maxDens << std::endl;
+            std::cout << cursorX << " : " << cursorY << std::endl;
         }
     }
 

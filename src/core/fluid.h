@@ -34,24 +34,27 @@ private:
 	// simulation vars
 	// ----------------
 
-	float targetDensity = 10.01f;
-	float pressureMultipier = 0.1f;
+	float targetDensity = 1.01f;
+	float pressureMultipier = 0.2f;
 
-	bool enableGravity = 1;
+	bool enableGravity = 0;
 	float gravity = 9.81f;
-	float mass = 1.01f;
+	float mass = 0.11f;
 
 	// wall colisions dumping
 	float collisionDumping = 0.88f;
 	float ambienceDumping = 0.88f;
 
-	float simulationSpeed = 0.00002f;
+	float simulationSpeed = 0.0002f;
 
 	/// <summary>
 	/// range [0.0f, 1.0f] 
 	/// (due to openGL coord space)
 	/// </summary>
-	float smothingRadius = 0.1f;
+	float smothingRadius = 0.08f;
+
+	float cursorRadius = 0.2f;
+	float cursorForce = 100.0f;
 
 	float calcDensity(int vertIndex);
 	glm::vec3 calcGradientPressure(int vertIndex);
@@ -71,7 +74,7 @@ public:
 
 	Fluid(int count);
 
-	void updateSimulation();
+	void updateSimulation(float cursorX, float cursorY);
 
 	/// <summary>
 	/// returns point size according to smothingRadius and screenResolution

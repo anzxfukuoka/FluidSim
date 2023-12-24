@@ -31,3 +31,5 @@ void initWindow(int width, int height, std::string windowTitle, color windowBack
 /// </summary>
 /// <returns></returns>
 int showWindow(FluidRenderer * renderer, void (*newupdate)(), int updateSpeed = 1);
+
+glm::vec2 getMousePosition();

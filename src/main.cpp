@@ -17,8 +17,8 @@ const float HEIGHT = 800;
 
 void fupdate() 
 {
-	//std::cout << "update!" << std::endl;
-	water->updateSimulation();
+	auto mousePos = getMousePosition();
+	water->updateSimulation(mousePos.x, mousePos.y);
 	//waterRenderer->updateVertices(&(water->vertices));
 }
 
@@ -28,7 +28,7 @@ int main() {
 
 	printf("%s\n", glGetString(GL_VERSION));
 
-	water = new Fluid(256);
+	water = new Fluid(500);
 	waterRenderer = new FluidRenderer(water, glm::vec2(WIDTH, HEIGHT));
 
 	int excode = showWindow(waterRenderer, &fupdate, 1);
