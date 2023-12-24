@@ -16,10 +16,20 @@ void main()
     float disToCenter = distance(gl_PointCoord, vec2(0.5f, 0.5f));  
     float transparancy = 1 - sin(sqrt(disToCenter * PI)); // sin(sqrt(gl_PointCoord.x * gl_PointCoord.x + gl_PointCoord.y * gl_PointCoord.y) * PI);// + sin(gl_PointCoord.y * PI);
     
-    transparancy = min(pow(transparancy, 2), 0.28f);
-    //transparancy = pow(min(transparancy, 0.28f), 2.0f);
+    // blured dots
+    // -------
+    transparancy = min(pow(transparancy, 2), 0.28f) * 2;
+    //transparancy = pow(min(transparancy, 0.28f), 2.0f)  * 4;
 
-    vec4 color = vec4(0.0f, 0.0f, 1.0f, transparancy * 2);
+    // shaded spheres
+    // -------
+    // transparancy = pow(transparancy, 2);
+    // if(transparancy <= 0.1)
+    // {
+    //     transparancy = 0;
+    // }
+
+    vec4 color = vec4(0.0f, 0.0f, 1.0f, transparancy);
 
     if(densitiy > 0.5f)
     {

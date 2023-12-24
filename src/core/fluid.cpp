@@ -181,6 +181,7 @@ float Fluid::getPressureFromDensity(float density)
 void Fluid::updateSimulation(float cursorX, float cursorY)
 {
     float maxDens = 0;
+    float minDens = 0;
 
     for (int i = 0; i < vertices.size(); i++)
     {
@@ -194,7 +195,9 @@ void Fluid::updateSimulation(float cursorX, float cursorY)
         vertices[i] += velocities[i] * simulationSpeed;
 
         densities[i] = calcDensity(i);
+
         maxDens = std::max(densities[i], maxDens);
+        minDens = std::min(densities[i], minDens);
     }
 
     //pressure forces
@@ -203,6 +206,7 @@ void Fluid::updateSimulation(float cursorX, float cursorY)
     {
         if (densities[i] == 0) 
         {
+            continue;
             /*glm::vec3 pressureForce = calcGradientPressure(i);
             glm::vec3 pressureAccel = pressureForce;
             velocities[i] += pressureAccel;*/
@@ -250,25 +254,25 @@ void Fluid::updateSimulation(float cursorX, float cursorY)
 
         
         //debug
-        if (i == vertices.size() - 1)
-        {
+        //if (i == vertices.size() - 1)
+        //{
 
-            /*if (vertices[i].y > -1.0f && vertices[i].y < 1.0f)
-            {
-                vertices[i].y += gravity * 0.0001f;
-            }*/
+        //    /*if (vertices[i].y > -1.0f && vertices[i].y < 1.0f)
+        //    {
+        //        vertices[i].y += gravity * 0.0001f;
+        //    }*/
 
-            //std::cout << velocities[i].x << " " << densities[i] << std::endl;
-            //std::cout << "max p " << maxDens << std::endl;
-            std::cout << cursorX << " : " << cursorY << std::endl;
-        }
+        //    //std::cout << velocities[i].x << " " << densities[i] << std::endl;
+        //    //std::cout << "max p " << maxDens << std::endl;
+        //    std::cout << cursorX << " : " << cursorY << std::endl;
+        //}
     }
 
     ////norm
     ////(for shaders)
     for (int i = 0; i < densities.size(); i++)
     {
-        normedDensities[i] = densities[i] / maxDens;
+        normedDensities[i] = densities[i] / maxDens + minDens;
     }
 }
 

@@ -34,8 +34,8 @@ private:
 	// simulation vars
 	// ----------------
 
-	float targetDensity = 1.01f;
-	float pressureMultipier = 0.2f;
+	float targetDensity = 0.1f;
+	float pressureMultipier = 0.1f;
 
 	bool enableGravity = 0;
 	float gravity = 9.81f;
@@ -45,7 +45,7 @@ private:
 	float collisionDumping = 0.88f;
 	float ambienceDumping = 0.88f;
 
-	float simulationSpeed = 0.0002f;
+	float simulationSpeed = 0.0006f;
 
 	/// <summary>
 	/// range [0.0f, 1.0f] 
@@ -53,8 +53,8 @@ private:
 	/// </summary>
 	float smothingRadius = 0.08f;
 
-	float cursorRadius = 0.2f;
-	float cursorForce = 100.0f;
+	float cursorRadius = 0.22f;
+	float cursorForce = 20.0f;
 
 	float calcDensity(int vertIndex);
 	glm::vec3 calcGradientPressure(int vertIndex);
